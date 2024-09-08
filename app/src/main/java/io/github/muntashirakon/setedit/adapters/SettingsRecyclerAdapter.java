@@ -235,9 +235,11 @@ public class SettingsRecyclerAdapter extends AbsRecyclerAdapter {
 
                 @Override
                 protected void publishResults(CharSequence constraint, FilterResults results) {
-                    //noinspection unchecked
-                    AdapterUtils.notifyDataSetChanged(SettingsRecyclerAdapter.this, mMatchedPositions,
-                            (List<Integer>) results.values);
+                    if (results.values!=null) {
+                        //noinspection unchecked
+                        AdapterUtils.notifyDataSetChanged(SettingsRecyclerAdapter.this, mMatchedPositions,
+                                (List<Integer>) results.values);
+                    }
                 }
             };
         }
