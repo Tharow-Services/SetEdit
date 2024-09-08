@@ -105,6 +105,18 @@ public class EditorUtils {
                 return TableType.TABLE_BOOT;
             case TableTypeInt.TABLE_SHORTCUTS:
                 return TableType.TABLE_SHORTCUTS;
+            case TableTypeInt.TABLE_MOTO_SYSTEM:
+                return TableType.TABLE_MOTO_SYSTEM;
+            case TableTypeInt.TABLE_MOTO_SECURE:
+                return TableType.TABLE_MOTO_SECURE;
+            case TableTypeInt.TABLE_MOTO_GLOBAL:
+                return TableType.TABLE_MOTO_GLOBAL;
+            case TableTypeInt.TABLE_LINEAGE_SYSTEM:
+                return TableType.TABLE_LINEAGE_SYSTEM;
+            case TableTypeInt.TABLE_LINEAGE_SECURE:
+                return TableType.TABLE_LINEAGE_SECURE;
+            case TableTypeInt.TABLE_LINEAGE_GLOBAL:
+                return TableType.TABLE_LINEAGE_GLOBAL;
             default:
                 throw new IllegalArgumentException("Invalid table type: " + tableTypeInt);
         }

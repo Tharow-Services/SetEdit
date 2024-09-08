@@ -44,7 +44,7 @@ public final class SettingsUtils {
         ContentResolver contentResolver = context.getContentResolver();
         try {
             String[] strArr = {keyName};
-            contentResolver.delete(Uri.parse("content://settings/" + settingsType), "name = ?", strArr);
+            contentResolver.delete(Uri.parse("content://" + settingsType), "name = ?", strArr);
             return new ActionResult(ActionResult.TYPE_DELETE, true);
         } catch (Throwable th) {
             th.printStackTrace();
@@ -75,7 +75,7 @@ public final class SettingsUtils {
             ContentValues contentValues = new ContentValues(2);
             contentValues.put("name", keyName);
             contentValues.put("value", newValue);
-            contentResolver.insert(Uri.parse("content://settings/" + settingsType), contentValues);
+            contentResolver.insert(Uri.parse("content://" + settingsType), contentValues);
             return new ActionResult(actionType, true);
         } catch (Throwable th) {
             th.printStackTrace();

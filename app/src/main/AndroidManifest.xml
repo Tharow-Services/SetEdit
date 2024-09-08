@@ -10,11 +10,15 @@
     <uses-permission
         android:name="android.permission.WRITE_SECURE_SETTINGS"
         tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="com.motorola.permission.WRITE_SECURE_SETTINGS" />
+    <uses-permission android:name="lineageos.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
+
+
 
     <uses-feature
         android:name="android.software.leanback"
@@ -22,6 +26,13 @@
     <uses-feature
         android:name="android.hardware.touchscreen"
         android:required="false" />
+    <queries>
+        <package android:name="com.motorola.android.provider.settings" />
+        <package android:name="org.lineageos.lineagesettings" />
+        <provider android:authorities="settings" />
+        <provider android:authorities="lineagesettings" />
+        <provider android:authorities="com.motorola.android.provider.settings" />
+    </queries>
 
     <application
         android:name=".App"

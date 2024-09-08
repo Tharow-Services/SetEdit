@@ -77,6 +77,18 @@ public class SettingsRecyclerAdapter extends AbsRecyclerAdapter {
                 return TableTypeInt.TABLE_SECURE;
             case SettingsType.GLOBAL_SETTINGS:
                 return TableTypeInt.TABLE_GLOBAL;
+            case SettingsType.MOTO_SYSTEM_SETTINGS:
+                return TableTypeInt.TABLE_MOTO_SYSTEM;
+            case SettingsType.MOTO_SECURE_SETTINGS:
+                return TableTypeInt.TABLE_MOTO_SECURE;
+            case SettingsType.MOTO_GLOBAL_SETTINGS:
+                return TableTypeInt.TABLE_MOTO_GLOBAL;
+            case SettingsType.LINEAGE_SYSTEM_SETTINGS:
+                return TableTypeInt.TABLE_LINEAGE_SYSTEM;
+            case SettingsType.LINEAGE_SECURE_SETTINGS:
+                return TableTypeInt.TABLE_LINEAGE_SECURE;
+            case SettingsType.LINEAGE_GLOBAL_SETTINGS:
+                return TableTypeInt.TABLE_LINEAGE_GLOBAL;
         }
     }
 
@@ -237,7 +249,7 @@ public class SettingsRecyclerAdapter extends AbsRecyclerAdapter {
         try {
             ContentResolver contentResolver = context.getContentResolver();
             @Nullable
-            Cursor query = contentResolver.query(Uri.parse("content://settings/" + settingsType),
+            Cursor query = contentResolver.query(Uri.parse("content://" + settingsType),
                     columns, null, null, null);
             return new SettingsCursor(query);
         } catch (Throwable th) {
