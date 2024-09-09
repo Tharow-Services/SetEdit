@@ -30,7 +30,7 @@ public final class SettingsUtils {
     public static ActionResult delete(@NonNull Context context, @SettingsType String settingsType,
                                       @NonNull String keyName) {
         if (Boolean.TRUE.equals(Shell.isAppGrantedRoot())) {
-            Shell.Result result = Shell.cmd("settings delete " + settingsType + " " + keyName).exec();
+            Shell.Result result = Shell.cmd(commandBuilder(settingsType) +" delete " + settingsType + " " + keyName).exec();
             ActionResult r = new ActionResult(ActionResult.TYPE_DELETE, result.isSuccess());
             r.setLogs(TextUtils.join("\n", result.getErr()));
             return r;
@@ -38,7 +38,7 @@ public final class SettingsUtils {
         Boolean isGranted = EditorUtils.checkSettingsPermission(context, settingsType);
         if (isGranted == null) return new ActionResult(ActionResult.TYPE_DELETE, false);
         if (!isGranted) {
-            EditorUtils.displayGrantPermissionMessage(context);
+            EditorUtils.displayGrantPermissionMessage(context, settingsType);
             return new ActionResult(ActionResult.TYPE_DELETE, false);
         }
         ContentResolver contentResolver = context.getContentResolver();
@@ -59,7 +59,7 @@ public final class SettingsUtils {
                                                @NonNull String keyName, @NonNull String newValue,
                                                @ActionResult.ActionType int actionType) {
         if (Boolean.TRUE.equals(Shell.isAppGrantedRoot())) {
-            Shell.Result result = Shell.cmd("settings put " + settingsType + " " + keyName + " \"" + newValue + "\"").exec();
+            Shell.Result result = Shell.cmd(commandBuilder(settingsType) + " put " + settingsType + " " + keyName + " \"" + newValue + "\"").exec();
             ActionResult r = new ActionResult(actionType, result.isSuccess());
             r.setLogs(TextUtils.join("\n", result.getErr()));
             return r;
@@ -67,7 +67,7 @@ public final class SettingsUtils {
         Boolean isGranted = EditorUtils.checkSettingsPermission(context, settingsType);
         if (isGranted == null) return new ActionResult(actionType, false);
         if (!isGranted) {
-            EditorUtils.displayGrantPermissionMessage(context);
+            EditorUtils.displayGrantPermissionMessage(context, settingsType);
             return new ActionResult(actionType, false);
         }
         ContentResolver contentResolver = context.getContentResolver();
@@ -82,6 +82,20 @@ public final class SettingsUtils {
             ActionResult r = new ActionResult(actionType, false);
             r.setLogs(th.getMessage());
             return r;
+        }
+    }
+
+    private static String commandBuilder(@SettingsType String settingsType) {
+        switch (settingsType) {
+            case SettingsType.GLOBAL_SETTINGS:
+            case SettingsType.SYSTEM_SETTINGS:
+            case SettingsType.SECURE_SETTINGS:
+                return "settings";
+            case SettingsType.MOTO_GLOBAL_SETTINGS:
+            case SettingsType.MOTO_SYSTEM_SETTINGS:
+            case SettingsType.MOTO_SECURE_SETTINGS:
+                return "motsettings";
+            default: return null;
         }
     }
 }

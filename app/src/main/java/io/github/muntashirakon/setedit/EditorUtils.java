@@ -34,8 +34,8 @@ public class EditorUtils {
      */
     @Nullable
     public static Boolean checkSettingsPermission(@NonNull Context context, @SettingsType String settingsType) {
-        String permission = SettingsType.SYSTEM_SETTINGS.equals(settingsType)
-                ? Manifest.permission.WRITE_SETTINGS : Manifest.permission.WRITE_SECURE_SETTINGS;
+        String permission = requiredPermission(settingsType);
+
         if (SettingsType.SYSTEM_SETTINGS.equals(settingsType)) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.System.canWrite(context)) {
                 if (Boolean.TRUE.equals(Shell.isAppGrantedRoot())) {
@@ -60,10 +60,10 @@ public class EditorUtils {
     }
 
     @SuppressLint({"InflateParams", "SetTextI18n"})
-    public static void displayGrantPermissionMessage(@NonNull Context context) {
+    public static void displayGrantPermissionMessage(@NonNull Context context, @SettingsType String settingsType) {
         View view = LayoutInflater.from(context).inflate(R.layout.dialog_unsupported, null);
         TextView tv = view.findViewById(R.id.txt);
-        tv.setText("pm grant " + BuildConfig.APPLICATION_ID + " " + Manifest.permission.WRITE_SECURE_SETTINGS);
+        tv.setText("pm grant " + BuildConfig.APPLICATION_ID + " " + requiredPermission(settingsType));
         tv.setKeyListener(null);
         tv.setSelectAllOnFocus(true);
         tv.requestFocus();
@@ -71,6 +71,22 @@ public class EditorUtils {
                 .setView(view)
                 .setNegativeButton(R.string.close, null)
                 .show();
+    }
+    @NonNull
+    private static String requiredPermission(@SettingsType String settingsType) {
+        switch (settingsType) {
+            case SettingsType.SYSTEM_SETTINGS: return Manifest.permission.WRITE_SETTINGS;
+            case SettingsType.SECURE_SETTINGS:
+            case SettingsType.GLOBAL_SETTINGS: return Manifest.permission.WRITE_SECURE_SETTINGS;
+            case SettingsType.MOTO_GLOBAL_SETTINGS:
+            case SettingsType.MOTO_SECURE_SETTINGS:
+            case SettingsType.MOTO_SYSTEM_SETTINGS: return "com.motorola.permission.WRITE_SECURE_SETTINGS";
+            case SettingsType.LINEAGE_GLOBAL_SETTINGS:
+            case SettingsType.LINEAGE_SECURE_SETTINGS:
+            case SettingsType.LINEAGE_SYSTEM_SETTINGS: return "lineageos.permission.WRITE_SETTINGS";
+            default:
+                throw new UnsupportedOperationException("Unexpected Value: " + settingsType);
+        }
     }
 
     @NonNull

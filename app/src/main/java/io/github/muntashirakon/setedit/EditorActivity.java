@@ -155,7 +155,7 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
                 if (isGranted) {
                     addNewItemDialog();
                 } else {
-                    EditorUtils.displayGrantPermissionMessage(this);
+                    EditorUtils.displayGrantPermissionMessage(this, ((SettingsRecyclerAdapter) adapter).getSettingsType());
                 }
             }
         });

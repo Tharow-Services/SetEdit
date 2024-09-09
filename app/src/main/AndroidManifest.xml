@@ -27,8 +27,6 @@
         android:name="android.hardware.touchscreen"
         android:required="false" />
     <queries>
-        <package android:name="com.motorola.android.provider.settings" />
-        <package android:name="org.lineageos.lineagesettings" />
         <provider android:authorities="settings" />
         <provider android:authorities="lineagesettings" />
         <provider android:authorities="com.motorola.android.provider.settings" />
