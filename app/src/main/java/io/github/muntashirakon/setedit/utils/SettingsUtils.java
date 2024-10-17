@@ -95,6 +95,10 @@ public final class SettingsUtils {
             case SettingsType.MOTO_SYSTEM_SETTINGS:
             case SettingsType.MOTO_SECURE_SETTINGS:
                 return "motsettings";
+            case SettingsType.LINEAGE_GLOBAL_SETTINGS:
+            case SettingsType.LINEAGE_SECURE_SETTINGS:
+            case SettingsType.LINEAGE_SYSTEM_SETTINGS:
+                return "settings --lineage";
             default: return null;
         }
     }

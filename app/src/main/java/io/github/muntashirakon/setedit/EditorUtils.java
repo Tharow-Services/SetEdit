@@ -63,10 +63,22 @@ public class EditorUtils {
     public static void displayGrantPermissionMessage(@NonNull Context context, @SettingsType String settingsType) {
         View view = LayoutInflater.from(context).inflate(R.layout.dialog_unsupported, null);
         TextView tv = view.findViewById(R.id.txt);
-        tv.setText("pm grant " + BuildConfig.APPLICATION_ID + " " + requiredPermission(settingsType));
-        tv.setKeyListener(null);
-        tv.setSelectAllOnFocus(true);
-        tv.requestFocus();
+        TextView errorTv = view.findViewById(R.id.error_txt);
+
+        switch (settingsType) {
+            case SettingsType.MOTO_GLOBAL_SETTINGS:
+            case SettingsType.MOTO_SECURE_SETTINGS:
+            case SettingsType.MOTO_SYSTEM_SETTINGS: {
+                tv.setVisibility(View.INVISIBLE);
+                errorTv.setText(R.string.motorola_settings_error);
+            }
+            default: {
+                tv.setText("pm grant " + BuildConfig.APPLICATION_ID + " " + requiredPermission(settingsType));
+                tv.setKeyListener(null);
+                tv.setSelectAllOnFocus(true);
+                tv.requestFocus();
+            }
+        }
         new MaterialAlertDialogBuilder(context)
                 .setView(view)
                 .setNegativeButton(R.string.close, null)
