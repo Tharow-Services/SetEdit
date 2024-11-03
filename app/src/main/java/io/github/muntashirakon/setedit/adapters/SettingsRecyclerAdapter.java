@@ -14,11 +14,14 @@ import androidx.annotation.Nullable;
 import androidx.core.util.Pair;
 import androidx.fragment.app.FragmentActivity;
 
+import com.topjohnwu.superuser.Shell;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
+import io.github.muntashirakon.setedit.EditorUtils;
 import io.github.muntashirakon.setedit.R;
 import io.github.muntashirakon.setedit.SettingsType;
 import io.github.muntashirakon.setedit.TableTypeInt;
@@ -94,28 +97,38 @@ public class SettingsRecyclerAdapter extends AbsRecyclerAdapter {
 
     @Override
     public boolean canSetOnReboot() {
-        return true;
+        return canEdit();
     }
 
     @Override
     public boolean canCreateShortcut() {
-        return true;
+        return canEdit();
     }
 
     @Override
     public boolean canCreate() {
-        return true;
+        return canEdit();
     }
 
     @Override
     public boolean canEdit() {
-        return true;
+        switch (mSettingsType) {
+            case SettingsType.MOTO_GLOBAL_SETTINGS:
+            case SettingsType.MOTO_SECURE_SETTINGS:
+            case SettingsType.MOTO_SYSTEM_SETTINGS:
+                return Boolean.TRUE.equals(Shell.isAppGrantedRoot()) ||
+                        Boolean.TRUE.equals(EditorUtils.checkSettingsPermission(context, mSettingsType));
+            default:
+                return true;
+        }
     }
 
     @Override
     public boolean canDelete() {
-        return true;
+        return canEdit();
     }
+
+
 
     @Override
     public void create(String keyName, String newValue) {
